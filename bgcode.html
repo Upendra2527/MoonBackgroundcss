@@ -3,83 +3,125 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <title>OBJECT BASED TERRAIN CLASSIFICATION USING DEEP LEARNING</title>
     <style>
-        *{
-            margin: 0px;
-            padding: 0px;
-        }
-
         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbars */
+        }
+
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100vh;
-            background-image: url("https://images.unsplash.com/photo-1570284613060-766c33850e00?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,jpg");
-            background-size: cover;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Place the video behind other elements */
         }
 
-        .earth {
-            width: 300px;
-            height: 300px;
-            background-image: url(https://www.surfertoday.com/images/stories/physical-world-map.jpg);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-size: 700px 100%;
-            box-shadow: inset 0px 0px 5px #FDFfF29E, inset 30px 0px 5px #000;
-            animation: rotate 10s infinite linear;
+        h1 {
+            text-align: center;
+            color: #fff; /* Set text color to white for better visibility */
+            z-index: 1; /* Ensure text is above the video */
+            position: relative;
         }
 
-        @keyframes rotate {
-            0% {
-                background-position-x: 0px;
-            }
-
-            100% {
-                background-position-x: 1000px;
-            }
+        #image-upload-form {
+            text-align: center;
+            margin-bottom: 20px;
+            z-index: 1; /* Ensure form is above the video */
+            color: #fff; /* Set text color to white */
         }
 
-        .orbit {
-            width: 500px;
-            height: 500px;
-            border: 1px solid white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            animation: rotate-2 15s infinite linear;
+        #image-upload {
+            color: #fff; /* Set text color to white */
         }
 
-        @keyframes rotate-2 {
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
+        #image-preview {
+            text-align: center;
+            margin-top: 20px;
+            z-index: 1; /* Ensure preview is above the video */
         }
 
-        .moon {
-            width: 120px;
-            height: 120px;
-            background: url(https://images.unsplash.com/photo-1479090793912-eb9929f4fdb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwcm9maWxlLWxpa2VkfDEzfHx8ZW58MHx8fHx8&w=1000&q=80.jpg);
-            background-size: 220px;
-            background-position: center;
-            border-radius: 50%;
-            position: absolute;
-            top: 30px;
+        #image-preview img {
+            max-width: 100%;
+            max-height: 200px; /* Set a maximum height to constrain proportions */
+            display: inline-block;
+        }
+
+        #submit-button {
+            display: block;
+            margin-top:35px;
+            margin-left:708px; /* Adjusted margin to move the button to the left */
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            z-index: 1; /* Ensure button is above the video */
         }
     </style>
-    <title>OBJECT ORIENTED BASED ON TERRAIN CLASSIFICATION USING DEEP LEARNING MODEL</title>
 </head>
 
 <body>
-    <div class="earth"></div>
-    <div class="orbit">
-        <div class="moon"></div>
-    </div>
+    <video id="video-background" autoplay loop muted>
+        <source src="bgvideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <h1>OBJECT BASED TERRAIN CLASSIFICATION USING DEEP LEARNING</h1>
+
+    <form id="image-upload-form">
+        <label for="image-upload">Upload Image:</label>
+        <input type="file" id="image-upload" accept="image/*" onchange="previewImage()">
+    </form>
+
+    <div id="image-preview"></div>
+
+    <button id="submit-button" onclick="openNewTab()">Submit</button>
+
+    <script>
+        function previewImage() {
+            var preview = document.getElementById('image-preview');
+            var fileInput = document.getElementById('image-upload');
+            var file = fileInput.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.innerHTML = '<img src="' + e.target.result + '" alt="Uploaded Image">';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+            }
+        }
+
+        function openNewTab() {
+            // Open a new tab
+            var newTab = window.open('about:blank', '_blank');
+
+            // Define an array of image URLs
+            var imageUrls = [
+                'https://t3.ftcdn.net/jpg/01/66/09/78/360_F_166097852_EUpGrSFSS4UhmxDUbNkG2j1w9yhhy1I3.jpg',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9V4M_5eII66Zi_ynKaWeGWupz-mmNJxWa4g&usqp=CAU',
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrFLEKr0O0OSsYjANtLi6MCcpyM_SyNty1Iw&usqp=CAU'
+                // Add more image URLs as needed
+            ];
+
+            // Select a random image URL
+            var randomImageUrl = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+
+            // Display the random image in the new tab
+            newTab.document.write('<img src="' + randomImageUrl + '" style="max-width: 100%;">');
+        }
+    </script>
 </body>
 
 </html>
